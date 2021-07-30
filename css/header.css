@@ -1,0 +1,404 @@
+@font-face {
+  font-family: Tahoma;
+  src: url('../fonts/Tahoma.eot');
+  src: url('../fonts/Tahoma.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Tahoma.woff2') format('woff2'),
+       url('../fonts/Tahoma.woff') format('woff');
+        font-display: swap;
+}
+
+@font-face {
+  font-family: Tahoma-Bold;
+  src: url('../fonts/Tahoma-Bold.eot');
+  src: url('../fonts/Tahoma-Bold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Tahoma-Bold.woff2') format('woff2'),
+       url('../fonts/Tahoma-Bold.woff') format('woff');
+        font-display: swap;
+}
+
+@font-face {
+  font-family: YesevaOne-Regular;
+  src: url('../fonts/YesevaOne-Regular.eot');
+  src: url('../fonts/YesevaOne-Regular.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/YesevaOne-Regular.woff2') format('woff2'),
+       url('../fonts/YesevaOne-Regular.woff') format('woff');
+        font-display: swap;
+}
+
+@font-face {
+  font-family: PoplarStd;
+  src: url('../fonts/PoplarStd.otf');
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.lightboxOverlay {position: fixed !important;}
+
+ul {
+  font-size: 16px;
+  list-style: none;
+}
+
+body {
+  min-width: 320px;
+  font-family: 'Tahoma';
+  font-weight: 100;
+  background: #a22522;
+  background-size: cover;
+}
+
+a {
+  color: #639fe0;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  position: relative;
+  z-index: 20;
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+header {
+  background: #000;
+  border-bottom: 4px solid #a22522;
+}
+
+section {
+  position: relative;
+  z-index: 20;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+strong {
+  font-family: 'Tahoma-Bold';
+  font-weight: 100;
+}
+
+nav a {
+  display: block;
+  font-family: 'Tahoma-Bold';
+  font-weight: 100;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px 24px;
+}
+
+nav a:hover, .list:hover a {
+  background: #fff;
+  color: #3c0c0b;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sub a {
+  font-family: 'Tahoma';
+  color: #3c0c0b;
+}
+
+main {
+  position: relative;
+  z-index: 2;
+}
+
+.list {
+  position: relative;
+}
+
+.graffit {
+  background: #333333;
+}
+
+.sub {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+
+.list:hover .sub {
+  display: block;
+}
+
+.sub {border-top: 4px solid #a22522;}
+.sub li:first-child a {margin-right: 0;}
+.sub li {width: 100%;}
+/*.sub li:last-child a {background: none;}*/
+.sub a {background: rgba(255,255,255,0.9);border: 0;}
+.sub a:hover {background: #3c0c0b !important;color: #fff;}
+
+.redop {
+  background: rgba(96,2,0,0.5);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.flv {
+  display: flex;
+  flex-direction: column;
+}
+
+.spb {
+  justify-content: space-between;
+}
+
+.vn {
+  align-items: normal;
+}
+
+.fe {
+  justify-content: flex-end;
+}
+
+.cen {
+  justify-content: center;
+}
+
+.va {
+  align-items: center;
+}
+
+.vn {
+  align-items: normal;
+}
+
+.main, .main .col2 {
+  position: relative;
+  min-height: 180px;
+}
+
+.w100 {
+  height: 631px;
+  max-width: none;
+}
+
+
+@media (max-width:1300px){
+  .w100 {height: 531px;}
+}
+
+@media (max-width:1200px){
+  .w100 {max-width: 100%; height: auto;width: 100%;}
+}
+
+.imgstyle, .images img {
+  background: #000;
+  padding: 12px;
+}
+
+.yearbl {
+  min-height: 266px;
+}
+
+.photobl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+}
+/*
+.photo1 {
+  position: absolute;
+  top: 40px;
+}
+
+.photo2 {
+  position: absolute;
+  bottom: 40px;
+}
+*/
+
+.imgcircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  height: 280px;
+  background: #bfbfbf;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.imgcircle img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.year {
+  font-family: YesevaOne-Regular;
+  font-size: 211px;
+  position: relative;
+  left: 5px;
+  top: 6px;
+  color: #000;
+  line-height: 1;
+}
+
+.top-name.name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: YesevaOne-Regular;
+  font-size: 47px;
+  text-transform: uppercase;
+  padding: 0;
+  text-align: center;
+}
+
+@media (max-width:450px){
+  .top-name.name {font-size: 40px;}
+}
+
+.ptb {
+  padding: 40px 0;
+}
+
+h4 {
+  font-family: 'Tahoma-Bold';
+  font-weight: 100;
+  font-size: 26px;
+  color: #3c0c0b;
+  text-transform: uppercase;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-16 {
+  font-size: 16px;
+}
+
+.cite {padding-top: 7px;}
+
+
+@media (max-width:1260px){
+  .container {
+    width: 100%;
+    padding:0 15px;}  
+ 
+  p {font-size: 14px;}
+}
+
+@media (max-width:1300px){
+  .imgcircle {width: 230px; height: 230px;}
+   .year {font-size: 181px;}
+}
+
+@media (max-width:1200px){
+  .container {
+    max-width:860px;
+    width: 100%;
+  }
+  .imgcircle {width: 310px; height: 310px;}
+
+  header .container {justify-content: center;}
+  .logo {
+    position: absolute;
+    top: 10%;
+    left: 2%;
+    max-width: 186px;
+  }
+
+  .year {position: relative; text-align: center;}
+  .yearbl {min-height: auto;}
+
+  .main .left {
+    width: 100%;
+    order: 2;
+    background: rgba(96,2,0,0.5);
+    padding: 0 15px 0 15px;
+  }
+  .logo2 {max-width: 186px;}
+  
+}
+
+@media (max-width:768px){
+  .container  {
+    max-width:510px;
+  }
+  .logo {
+    position: relative;
+    margin: 0 auto;
+    top: auto;
+    left: auto;
+    margin-top: 55px;
+  }
+
+  .logoc.col {
+    width: 100%;
+    order: -1;
+  }
+
+  h4 {text-align: center;}
+  .text {display: flex; justify-content: space-between; flex-wrap: wrap;width: 100%;}
+  .text p {width: 49%;}
+ 
+}
+
+
+@media (max-width:450px){
+  .imgcircle {width: 230px; height: 230px;}
+  .year {
+    text-align: center;
+    font-size: 177px;
+    top: 12px;}
+  .blyear {min-height: auto;}
+  .logo {margin-top: 45px;}
+}
+
+.up {
+  text-transform: uppercase;
+}
+
+.center {
+  text-align: center;
+}
+
+.white {
+  color: #fff;
+}
+
+.it {
+  font-style: italic;
+}
+
+.sp {letter-spacing: 1px;}
+
+
+
