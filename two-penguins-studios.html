@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Penguins Studios | Roblox Game Creators</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #070b14;
+    --bg-dark: #0c1220;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2540;
+    --accent-ice: #38bdf8;
+    --accent-ice-dim: #1e7bb8;
+    --accent-aurora: #22d3ee;
+    --accent-warm: #f97316;
+    --accent-warm-dim: #c2410c;
+    --accent-pink: #f472b6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-dim: #64748b;
+    --glow-ice: 0 0 30px rgba(56, 189, 248, 0.3);
+    --glow-warm: 0 0 30px rgba(249, 115, 22, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-ice-dim) var(--bg-deep);
+  }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ─── ANIMATED BG PARTICLES ─── */
+  .particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--accent-ice);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-particle linear infinite;
+  }
+  @keyframes float-particle {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(7, 11, 20, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    padding: 0.6rem 3rem;
+    background: rgba(7, 11, 20, 0.95);
+    border-bottom-color: rgba(56, 189, 248, 0.25);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+  .nav-logo svg {
+    width: 44px;
+    height: 44px;
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
+    transition: transform 0.3s;
+  }
+  .nav-logo:hover svg { transform: rotate(-10deg) scale(1.1); }
+  .nav-logo-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .nav-logo-text span { color: var(--accent-ice); }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    padding: 0.25rem 0;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ice), var(--accent-aurora));
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent-ice); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .hero-glow-1 {
+    top: -10%;
+    left: 20%;
+    background: var(--accent-ice);
+  }
+  .hero-glow-2 {
+    bottom: -10%;
+    right: 15%;
+    background: var(--accent-warm);
+  }
+  .hero-penguin {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 2rem;
+    animation: hero-bob 3s ease-in-out infinite;
+  }
+  @keyframes hero-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+  .hero-penguin svg {
+    width: 160px;
+    height: 160px;
+    filter: drop-shadow(0 0 40px rgba(56, 189, 248, 0.35));
+  }
+  .hero-badge {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid var(--accent-ice-dim);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-ice);
+    margin-bottom: 1.5rem;
+    background: rgba(56, 189, 248, 0.05);
+    animation: fadeSlideUp 0.8s ease-out 0.2s both;
+  }
+  .hero h1 {
+    position: relative;
+    z-index: 2;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeSlideUp 0.8s ease-out 0.4s both;
+  }
+  .hero h1 .line1 {
+    display: block;
+    background: linear-gradient(135deg, var(--text-primary) 40%, var(--accent-ice));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent-ice), var(--accent-aurora));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    max-width: 550px;
+    margin: 0 auto 2.5rem;
+    font-weight: 500;
+    animation: fadeSlideUp 0.8s ease-out 0.6s both;
+  }
+  .hero-buttons {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeSlideUp 0.8s ease-out 0.8s both;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2rem;
+    border-radius: 6px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent-ice), var(--accent-aurora));
+    color: var(--bg-deep);
+    box-shadow: var(--glow-ice);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 50px rgba(56, 189, 248, 0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--accent-warm);
+    border: 2px solid var(--accent-warm);
+  }
+  .btn-outline:hover {
+    background: var(--accent-warm);
+    color: var(--bg-deep);
+    transform: translateY(-3px);
+    box-shadow: var(--glow-warm);
+  }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeSlideUp 0.8s ease-out 1.2s both;
+  }
+  .scroll-indicator span {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent-ice), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+  }
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-ice);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+  .section-divider {
+    width: 60px;
+    height: 3px;
+    margin: 1rem auto 0;
+    background: linear-gradient(90deg, var(--accent-ice), var(--accent-aurora));
+    border-radius: 2px;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-dark) 100%);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .about-card {
+    width: 320px;
+    height: 400px;
+    background: linear-gradient(145deg, var(--bg-card), rgba(56, 189, 248, 0.08));
+    border-radius: 20px;
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(56, 189, 248, 0.1), transparent 30%);
+    animation: card-rotate 8s linear infinite;
+  }
+  @keyframes card-rotate {
+    to { transform: rotate(360deg); }
+  }
+  .about-card-inner {
+    position: relative;
+    z-index: 1;
+    background: var(--bg-card);
+    border-radius: 18px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+  }
+  .about-penguins {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .about-penguins svg {
+    width: 90px;
+    height: 90px;
+    transition: transform 0.4s;
+  }
+  .about-penguins svg:first-child { animation: waddle-left 4s ease-in-out infinite; }
+  .about-penguins svg:last-child { animation: waddle-right 4s ease-in-out infinite; }
+  @keyframes waddle-left {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  @keyframes waddle-right {
+    0%, 100% { transform: rotate(3deg); }
+    50% { transform: rotate(-3deg); }
+  }
+  .about-card-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-ice);
+  }
+  .about-card-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+  .about-text h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .about-text h3 span { color: var(--accent-ice); }
+  .about-text p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+  .about-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-ice), var(--accent-aurora));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ─── GAMES SHOWCASE ─── */
+  #games {
+    background: var(--bg-dark);
+  }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+  .game-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    group: true;
+  }
+  .game-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), var(--glow-ice);
+  }
+  .game-thumb {
+    width: 100%;
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-thumb-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    transition: transform 0.6s;
+  }
+  .game-card:hover .game-thumb-bg { transform: scale(1.1); }
+  .game-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bg-card) 0%, transparent 60%);
+  }
+  .game-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .badge-live {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+  .badge-dev {
+    background: rgba(249, 115, 22, 0.2);
+    color: var(--accent-warm);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+  }
+  .badge-soon {
+    background: rgba(244, 114, 182, 0.2);
+    color: var(--accent-pink);
+    border: 1px solid rgba(244, 114, 182, 0.3);
+  }
+  .game-info {
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+  .game-genre {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-ice);
+    margin-bottom: 0.4rem;
+  }
+  .game-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .game-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  .game-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .game-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* ─── SERVICES / WHAT WE DO ─── */
+  #services {
+    background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-deep) 100%);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .service-card {
+    padding: 2.5rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid rgba(56, 189, 248, 0.08);
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-ice), var(--accent-aurora));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(56, 189, 248, 0.2);
+    transform: translateY(-4px);
+  }
+  .service-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+  }
+  .service-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+  }
+  .service-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* ─── TEAM ─── */
+  #team {
+    background: var(--bg-deep);
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .team-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(56, 189, 248, 0.08);
+    transition: all 0.3s ease;
+  }
+  .team-card:hover {
+    border-color: rgba(56, 189, 248, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    border: 2px solid rgba(56, 189, 248, 0.2);
+    position: relative;
+  }
+  .team-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid rgba(56, 189, 248, 0.1);
+  }
+  .team-info h3 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+  }
+  .team-role {
+    font-size: 0.8rem;
+    color: var(--accent-ice);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+  .team-bio {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* ─── CTA / CONTACT ─── */
+  #contact {
+    background: var(--bg-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 4rem 3rem;
+    background: linear-gradient(145deg, rgba(56, 189, 248, 0.05), rgba(34, 211, 238, 0.03));
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 24px;
+    position: relative;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: var(--accent-ice);
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.08;
+  }
+  .cta-box h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  .cta-box p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .social-link {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .social-link:hover {
+    background: var(--accent-ice);
+    transform: translateY(-3px);
+    box-shadow: var(--glow-ice);
+  }
+  .social-link:hover svg { fill: var(--bg-deep); }
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--accent-ice);
+    transition: fill 0.3s;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid rgba(56, 189, 248, 0.08);
+    background: var(--bg-deep);
+  }
+  footer p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+  footer span { color: var(--accent-warm); }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 0.75rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-visual { order: -1; }
+    .services-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .games-grid { grid-template-columns: 1fr; }
+    .hero-penguin svg { width: 120px; height: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="pengGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#38bdf8"/>
+          <stop offset="100%" style="stop-color:#22d3ee"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="50" cy="55" rx="28" ry="35" fill="#1e293b"/>
+      <ellipse cx="50" cy="58" rx="18" ry="24" fill="#e2e8f0"/>
+      <circle cx="42" cy="42" r="4" fill="#38bdf8"/>
+      <circle cx="58" cy="42" r="4" fill="#38bdf8"/>
+      <circle cx="42" cy="42" r="2" fill="#0f172a"/>
+      <circle cx="58" cy="42" r="2" fill="#0f172a"/>
+      <ellipse cx="50" cy="50" rx="4" ry="3" fill="#f97316"/>
+      <ellipse cx="32" cy="60" rx="8" ry="5" fill="#1e293b" transform="rotate(-20, 32, 60)"/>
+      <ellipse cx="68" cy="60" rx="8" ry="5" fill="#1e293b" transform="rotate(20, 68, 60)"/>
+      <ellipse cx="42" cy="88" rx="7" ry="4" fill="#f97316"/>
+      <ellipse cx="58" cy="88" rx="7" ry="4" fill="#f97316"/>
+    </svg>
+    <div class="nav-logo-text">Two <span>Penguins</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#services">What We Do</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  
+  <div class="hero-penguin">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Big Penguin -->
+      <ellipse cx="75" cy="110" rx="32" ry="45" fill="#1e293b"/>
+      <ellipse cx="75" cy="115" rx="20" ry="30" fill="#e2e8f0"/>
+      <circle cx="66" cy="90" r="5" fill="#38bdf8"/>
+      <circle cx="84" cy="90" r="5" fill="#38bdf8"/>
+      <circle cx="66" cy="90" r="2.5" fill="#0f172a"/>
+      <circle cx="84" cy="90" r="2.5" fill="#0f172a"/>
+      <ellipse cx="75" cy="100" rx="5" ry="3.5" fill="#f97316"/>
+      <ellipse cx="53" cy="115" rx="10" ry="6" fill="#1e293b" transform="rotate(-15, 53, 115)"/>
+      <ellipse cx="97" cy="115" rx="10" ry="6" fill="#1e293b" transform="rotate(15, 97, 115)"/>
+      <ellipse cx="66" cy="153" rx="8" ry="5" fill="#f97316"/>
+      <ellipse cx="84" cy="153" rx="8" ry="5" fill="#f97316"/>
+      <!-- Little Penguin -->
+      <ellipse cx="140" cy="130" rx="22" ry="32" fill="#1e293b"/>
+      <ellipse cx="140" cy="134" rx="14" ry="21" fill="#e2e8f0"/>
+      <circle cx="133" cy="115" r="4" fill="#f472b6"/>
+      <circle cx="147" cy="115" r="4" fill="#f472b6"/>
+      <circle cx="133" cy="115" r="2" fill="#0f172a"/>
+      <circle cx="147" cy="115" r="2" fill="#0f172a"/>
+      <ellipse cx="140" cy="123" rx="3.5" ry="2.5" fill="#f97316"/>
+      <ellipse cx="125" cy="135" rx="7" ry="4" fill="#1e293b" transform="rotate(-15, 125, 135)"/>
+      <ellipse cx="155" cy="135" rx="7" ry="4" fill="#1e293b" transform="rotate(15, 155, 135)"/>
+      <ellipse cx="133" cy="160" rx="6" ry="4" fill="#f97316"/>
+      <ellipse cx="147" cy="160" rx="6" ry="4" fill="#f97316"/>
+      <!-- Stars -->
+      <circle cx="30" cy="40" r="2" fill="#38bdf8" opacity="0.6"><animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="170" cy="50" r="1.5" fill="#f472b6" opacity="0.6"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="150" cy="30" r="2" fill="#22d3ee" opacity="0.6"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="50" cy="55" r="1.5" fill="#f97316" opacity="0.5"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+
+  <div class="hero-badge">Roblox Game Creators</div>
+  <h1>
+    <span class="line1">Two Penguins</span>
+    <span class="line2">Studios</span>
+  </h1>
+  <p class="hero-sub">A parent-and-kid duo building awesome Roblox experiences. Small studio, big imagination.</p>
+  <div class="hero-buttons">
+    <a href="#games" class="btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21"/></svg>
+      Our Games
+    </a>
+    <a href="#about" class="btn btn-outline">Learn More</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+  <div class="section-container">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-card">
+          <div class="about-card-inner">
+            <div class="about-penguins">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="55" rx="28" ry="35" fill="#1e293b"/>
+                <ellipse cx="50" cy="58" rx="18" ry="24" fill="#e2e8f0"/>
+                <circle cx="42" cy="42" r="4" fill="#38bdf8"/>
+                <circle cx="58" cy="42" r="4" fill="#38bdf8"/>
+                <circle cx="42" cy="42" r="2" fill="#0f172a"/>
+                <circle cx="58" cy="42" r="2" fill="#0f172a"/>
+                <ellipse cx="50" cy="50" rx="4" ry="3" fill="#f97316"/>
+                <ellipse cx="42" cy="88" rx="7" ry="4" fill="#f97316"/>
+                <ellipse cx="58" cy="88" rx="7" ry="4" fill="#f97316"/>
+                <!-- Controller -->
+                <rect x="30" y="62" width="40" height="16" rx="8" fill="#334155"/>
+                <circle cx="40" cy="70" r="3" fill="#38bdf8"/>
+                <circle cx="60" cy="70" r="3" fill="#f97316"/>
+              </svg>
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="50" cy="60" rx="22" ry="30" fill="#1e293b"/>
+                <ellipse cx="50" cy="63" rx="14" ry="20" fill="#e2e8f0"/>
+                <circle cx="43" cy="48" r="3.5" fill="#f472b6"/>
+                <circle cx="57" cy="48" r="3.5" fill="#f472b6"/>
+                <circle cx="43" cy="48" r="1.8" fill="#0f172a"/>
+                <circle cx="57" cy="48" r="1.8" fill="#0f172a"/>
+                <ellipse cx="50" cy="55" rx="3.5" ry="2.5" fill="#f97316"/>
+                <ellipse cx="43" cy="88" rx="6" ry="3.5" fill="#f97316"/>
+                <ellipse cx="57" cy="88" rx="6" ry="3.5" fill="#f97316"/>
+                <!-- Star -->
+                <polygon points="50,20 53,28 62,28 55,33 58,42 50,37 42,42 45,33 38,28 47,28" fill="#fbbf24"/>
+              </svg>
+            </div>
+            <div class="about-card-label">EST. 2025</div>
+            <div class="about-card-title">Dream It. Build It. Play It.</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <h3 class="reveal">Who <span>We Are</span></h3>
+        <p class="reveal reveal-delay-1">We're Two Penguins Studios — a father-daughter team on a mission to create fun, creative, and unforgettable Roblox games. What started as a "let's try this together" has become a real passion project for both of us.</p>
+        <p class="reveal reveal-delay-2">We believe the best games come from playing together, dreaming together, and building together. Every game we make blends Dad's coding chops with our young creative director's unstoppable imagination.</p>
+        <div class="about-stats reveal reveal-delay-3">
+          <div class="stat">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Penguins</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">∞</div>
+            <div class="stat-label">Ideas</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Fun</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Games Section -->
+<section id="games">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-label reveal">Portfolio</span>
+      <h2 class="section-title reveal reveal-delay-1">Our Games</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+    </div>
+    <div class="games-grid">
+      <!-- Game Card 1 -->
+      <div class="game-card reveal reveal-delay-1">
+        <div class="game-thumb">
+          <div class="game-thumb-bg" style="background: linear-gradient(135deg, #0f172a, #1e3a5f, #0c4a6e);">
+            <svg width="80" height="80" viewBox="0 0 100 100" opacity="0.5">
+              <rect x="20" y="20" width="60" height="60" rx="8" fill="none" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#22d3ee" stroke-width="2"/>
+              <line x1="50" y1="35" x2="50" y2="65" stroke="#38bdf8" stroke-width="2"/>
+              <line x1="35" y1="50" x2="65" y2="50" stroke="#38bdf8" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="game-thumb-overlay"></div>
+          <div class="game-badge badge-dev">In Dev</div>
+        </div>
+        <div class="game-info">
+          <div class="game-genre">Adventure / Exploration</div>
+          <div class="game-title">Penguin Quest</div>
+          <div class="game-desc">Explore frozen tundras, solve puzzles, and collect rare fish in our debut adventure game.</div>
+          <div class="game-meta">
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Multiplayer
+            </div>
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+              Coming Soon
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Game Card 2 -->
+      <div class="game-card reveal reveal-delay-2">
+        <div class="game-thumb">
+          <div class="game-thumb-bg" style="background: linear-gradient(135deg, #1a0a2e, #2d1b69, #44218f);">
+            <svg width="80" height="80" viewBox="0 0 100 100" opacity="0.5">
+              <polygon points="50,15 85,75 15,75" fill="none" stroke="#a78bfa" stroke-width="2"/>
+              <circle cx="50" cy="55" r="10" fill="none" stroke="#c084fc" stroke-width="2"/>
+              <circle cx="50" cy="55" r="3" fill="#c084fc"/>
+            </svg>
+          </div>
+          <div class="game-thumb-overlay"></div>
+          <div class="game-badge badge-soon">Concept</div>
+        </div>
+        <div class="game-info">
+          <div class="game-genre">Tycoon / Simulator</div>
+          <div class="game-title">Ice Cream Empire</div>
+          <div class="game-desc">Build your dream ice cream shop, unlock wild flavors, and become the ultimate dessert mogul.</div>
+          <div class="game-meta">
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Singleplayer
+            </div>
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              2025
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Game Card 3 -->
+      <div class="game-card reveal reveal-delay-3">
+        <div class="game-thumb">
+          <div class="game-thumb-bg" style="background: linear-gradient(135deg, #1a2e05, #2d5016, #365314);">
+            <svg width="80" height="80" viewBox="0 0 100 100" opacity="0.5">
+              <rect x="25" y="45" width="50" height="35" rx="4" fill="none" stroke="#84cc16" stroke-width="2"/>
+              <line x1="35" y1="45" x2="35" y2="80" stroke="#84cc16" stroke-width="1.5"/>
+              <line x1="50" y1="45" x2="50" y2="80" stroke="#84cc16" stroke-width="1.5"/>
+              <line x1="65" y1="45" x2="65" y2="80" stroke="#84cc16" stroke-width="1.5"/>
+              <path d="M30 45 L50 25 L70 45" fill="none" stroke="#a3e635" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="game-thumb-overlay"></div>
+          <div class="game-badge badge-soon">Brainstorm</div>
+        </div>
+        <div class="game-info">
+          <div class="game-genre">Obby / Platformer</div>
+          <div class="game-title">Sky Tower Challenge</div>
+          <div class="game-desc">Race to the top of an ever-changing tower filled with tricky jumps and secret shortcuts.</div>
+          <div class="game-meta">
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Multiplayer
+            </div>
+            <div class="game-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+              Competitive
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-label reveal">What We Do</span>
+      <h2 class="section-title reveal reveal-delay-1">Our Superpowers</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">🎮</div>
+        <h3>Game Design</h3>
+        <p>We dream up worlds, characters, and gameplay mechanics together — brainstorming sessions fueled by snacks and big ideas.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🏗️</div>
+        <h3>Roblox Studio</h3>
+        <p>From terrain sculpting to scripting in Luau, we bring our ideas to life inside Roblox Studio one block at a time.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">🎨</div>
+        <h3>Art & UI</h3>
+        <p>Colorful, fun interfaces and environments that make our games feel polished and uniquely ours.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">🧪</div>
+        <h3>Playtesting</h3>
+        <p>Every game gets tested by our toughest critic — a kid with zero patience for boring gameplay. If it's fun for her, it ships.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">💡</div>
+        <h3>Creative Stories</h3>
+        <p>We weave stories and lore into our games because the best adventures need a reason to keep exploring.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">🐧</div>
+        <h3>Penguin Power</h3>
+        <p>Two penguins. Twice the creativity. We tackle every challenge as a team — because building together is the whole point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section id="team">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-label reveal">The Studio</span>
+      <h2 class="section-title reveal reveal-delay-1">Meet the Penguins</h2>
+      <div class="section-divider reveal reveal-delay-2"></div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar" style="background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(34,211,238,0.1));">
+          🐧
+        </div>
+        <div class="team-info">
+          <h3>Big Penguin</h3>
+          <div class="team-role">Lead Developer & Dad</div>
+          <div class="team-bio">The coder, the builder, the one who Googles "how to fix Roblox script" at midnight.</div>
+        </div>
+      </div>
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar" style="background: linear-gradient(135deg, rgba(244,114,182,0.15), rgba(249,115,22,0.1));">
+          🐧
+        </div>
+        <div class="team-info">
+          <h3>Little Penguin</h3>
+          <div class="team-role">Creative Director & Kid</div>
+          <div class="team-bio">The idea machine. If a game needs more color, more sparkle, or more penguins — she's on it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact / CTA Section -->
+<section id="contact">
+  <div class="section-container">
+    <div class="cta-box reveal">
+      <h2>Ready to Play<br>With Us?</h2>
+      <p>Follow our journey as we build, break, and rebuild awesome Roblox experiences. Got ideas? We love hearing from fellow gamers!</p>
+      <a href="#" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Play on Roblox
+      </a>
+      <div class="social-links">
+        <!-- Roblox -->
+        <a href="#" class="social-link" title="Roblox">
+          <svg viewBox="0 0 24 24"><path d="M5.164 0L0 18.627 18.836 24 24 5.373 5.164 0zm9.086 14.066l-4.26-1.14 1.14-4.26 4.26 1.14-1.14 4.26z"/></svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="social-link" title="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="#" class="social-link" title="Twitter">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Two Penguins Studios. Made with <span>♥</span> by a Dad & his Daughter.</p>
+</footer>
+
+<script>
+  // Particle generation
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 15) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1.5 + Math.random() * 3) + 'px';
+    if (Math.random() > 0.7) p.style.background = '#f97316';
+    else if (Math.random() > 0.5) p.style.background = '#22d3ee';
+    particlesEl.appendChild(p);
+  }
+
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const revealElements = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  revealElements.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
